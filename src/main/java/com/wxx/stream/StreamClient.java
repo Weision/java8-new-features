@@ -1,16 +1,46 @@
 package com.wxx.stream;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.IntSummaryStatistics;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class StreamClient {
     public static void main(String[] args) {
+        //创建流的方式
+        //１ Stream.of(val1, val2, val3….)
+        System.out.println("-------------Stream.of(val1)-------------");
+        Stream<Integer> newStream = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        newStream.forEach(System.out::println);
+        //2 Stream.of(arrayOfElements)
+        System.out.println("-------------Stream.of(arrayOfElements)-------------");
+        Stream<Integer> newStream1 = Stream.of(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
+        newStream1.forEach(System.out::println);
+        //3 someList.stream()
+        System.out.println("-------------someList.stream()-------------");
+        List<Integer> list = new ArrayList<Integer>();
+        for (int i = 1; i < 10; i++) {
+            list.add(i);
+        }
+        Stream<Integer> newStream2 = list.stream();
+        newStream2.forEach(System.out::println);
+        //4 Stream.generate() or Stream.iterate()
+        System.out.println("-------------Stream.generate()-------------");
+        Stream<Date> newStream3 = Stream.generate(() -> {
+            return new Date();
+        });
+        newStream3.forEach(System.out::println);
+
+        //5 String chars or String tokens
+        System.out.println("-------------String chars()-------------");
+        IntStream newStream4 = "12345_abcdefg".chars();
+        newStream4.forEach(System.out::println);
+        // OR
+        Stream<String> newStream5 = Stream.of("A$B$C".split("\\$"));
+        newStream5.forEach(System.out::println);
 
 
+        //流的操作
         List<String> strings = Arrays.asList("", "ddd", "eee", "ccc", "", "bbb", "aaa", "ggg", "fff");
         //1 stream() 为集合创建串行流
         Stream<String> stream = strings.stream();
@@ -51,7 +81,7 @@ public class StreamClient {
 
         //10 summaryStatistics() 统计结果收集器
         System.out.println("-------------summaryStatistics()-------------");
-        IntSummaryStatistics iss = numbers.stream().mapToInt((x) ->x).summaryStatistics();
+        IntSummaryStatistics iss = numbers.stream().mapToInt((x) -> x).summaryStatistics();
         System.out.println("列表中最大的数 : " + iss.getMax());
         System.out.println("列表中最小的数 : " + iss.getMin());
         System.out.println("所有数之和 : " + iss.getSum());
