@@ -3,10 +3,11 @@ package com.wxx.functionalInterface;
 /**
  * java8 interface add default and static method
  */
-public interface FunctionalInterface {
+@FunctionalInterface
+public interface FuncInterface {
 
     //common sbstract method
-    public void reference();
+    public String reference();
 
     //interface default method
     default void defaultMehtod() {

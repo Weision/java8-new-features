@@ -3,6 +3,7 @@ package com.wxx.methodReference;
 /**
  * java8 interface add default and static method
  */
+@FunctionalInterface
 public interface IsReferable {
 
     //common sbstract method
