@@ -60,32 +60,43 @@ public class DateTime {
         //进行一次重新赋值　未报错　但值也未改变
         localDate.of(2008, 8, 8);
         System.out.println("localDate: " + localDate);
-
+        //获取一个日期　方式一
         LocalDate localDate1 = LocalDate.of(2008, 8, 8);
         System.out.println("localDate1: " + localDate1);
+        //获取一个日期　方式二
         LocalDate localDate2 = LocalDate.parse("2008-08-09");
         System.out.println("localDate2: " + localDate2);
 
-
+        //获取明天日期
         LocalDate tomorrow = LocalDate.now().plusDays(1);
         System.out.println("tomorrow: " + tomorrow);
+
+        //获得当前减去一个月的日期(它接受一个枚举时间单位)
         LocalDate previousMonthSameDay = LocalDate.now().minus(1, ChronoUnit.MONTHS);
         System.out.println("previousMonthSameDay: " + previousMonthSameDay);
+
+        //得到一个日期并获取其是一周中的周几
         DayOfWeek saturday = LocalDate.parse("2018-07-28").getDayOfWeek();
         System.out.println("saturday: " + saturday);
+
+        //得到一个日期并获取其是一个月中的哪一天
         int twelve = LocalDate.parse("2018-07-28").getDayOfMonth();
         System.out.println("twelve: " + twelve);
+
+        //当前年份是否是闰年
         boolean leapYear = LocalDate.now().isLeapYear();
         System.out.println("leapYear: " + leapYear);
 
+        //两个时间的关联关系
         boolean notBefore = LocalDate.parse("2016-06-12").isBefore(LocalDate.now());
         System.out.println("2016-06-12 notBefore: " + notBefore);
         boolean isAfter = LocalDate.parse("2016-06-12").isAfter(LocalDate.now());
         System.out.println("2016-06-12 isAfter: " + isAfter);
 
-        //时间边界
+        //时间边界 获取某个日期的起始时间　如(2016-06-12　00:00:00)
         LocalDateTime beginningOfDay = LocalDate.parse("2016-06-12").atStartOfDay();
         System.out.println("beginningOfDay: " + beginningOfDay);
+        //时间边界 获取某个日期的当月的起始天　如(2016-06-12的那个月第一天是2016-06-01)
         LocalDate firstDayOfMonth = LocalDate.parse("2016-06-12").with(TemporalAdjusters.firstDayOfMonth());
         System.out.println("firstDayOfMonth: " + firstDayOfMonth);
     }
