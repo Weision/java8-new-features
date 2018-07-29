@@ -1,58 +1,73 @@
 package com.wxx.DateTime;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Set;
 
 public class DateTime {
     public static void main(String[] args) {
+        //本地时间
+        System.out.println("----------------localTime()------------------");
+        localTime();
+        //本地日期
+        System.out.println("----------------localDate()------------------");
         localDate();
-        //localDateTime();
-        //zonedDateTime();
+        //本地日期时间
+        System.out.println("----------------localDateTime()------------------");
+        localDateTime();
+        //时区日期时间
+        System.out.println("----------------zonedDateTime()------------------");
+        zonedDateTime();
+        //操作两个日期
+        System.out.println("----------------period()------------------");
+        period();
+        //操作两个时间
+        System.out.println("----------------duration()------------------");
+        duration();
+        //Date Canlder的转换
+        System.out.println("----------------toInstant()------------------");
+        toInstant();
+        //格式化
+        System.out.println("----------------formatting()------------------");
+        formatting();
     }
 
-    public static void localDateTime() {
-        // Get the current date and time
-        LocalDateTime currentTime = LocalDateTime.now();
-        System.out.println("Current DateTime: " + currentTime);
-
-        LocalDate date1 = currentTime.toLocalDate();
-        System.out.println("date1: " + date1);
-
-        Month month = currentTime.getMonth();
-        int day = currentTime.getDayOfMonth();
-        int seconds = currentTime.getSecond();
-
-        System.out.println("Month: [" + month + "] day: [" + day + "] seconds: [" + seconds + "]");
-
-        LocalDateTime date2 = currentTime.withDayOfMonth(10).withYear(2012);
-        System.out.println("date2: " + date2);
-
-        //12 december 2014
-        LocalDate date3 = LocalDate.of(2012, Month.DECEMBER, 12);
-        System.out.println("date3: " + date3);
-
-        //22 hour 15 minutes
-        LocalTime date4 = LocalTime.of(22, 15);
-        System.out.println("date4: " + date4);
-
-        //parse a string
-        LocalTime date5 = LocalTime.parse("20:15:30");
-        System.out.println("date5: " + date5);
+    /**
+     * The LocalTime represents time without a date.
+     */
+    public static void localTime() {
+        //An instance of current LocalTime can be created from the system clock
+        LocalTime localTime = LocalTime.now();
+        System.out.println("localTime: " + localTime);
+        //create a LocalTime representing 06:30 AM by parsing a string representation
+        LocalTime sixThirty = LocalTime.parse("06:30");
+        System.out.println("sixThirty: " + sixThirty);
+        //The Factory method “of” can be used to create a LocalTime
+        LocalTime sixThirty1 = LocalTime.of(6, 30);
+        System.out.println("sixThirty1: " + sixThirty1);
+        //creates a LocalTime by parsing a string and adds an hour to it by using the “plus” API
+        LocalTime sevenThirty = LocalTime.parse("06:30").plus(1, ChronoUnit.HOURS);
+        System.out.println("sevenThirty: " + sevenThirty);
+        //Various getter methods are available which can be used to get specific units of time like hour
+        int currentHour = LocalTime.parse("06:30").getHour();
+        System.out.println("currentHour: " + currentHour);
+        //check if a specific time is before or after another specific time
+        boolean isbefore = LocalTime.parse("06:30").isBefore(LocalTime.parse("07:30"));
+        System.out.println("currentHour: " + currentHour);
+        //The max, min and noon time of a day can be obtained by constants in LocalTime class
+        LocalTime maxTime = LocalTime.MAX;
+        System.out.println("maxTime: " + maxTime);
     }
 
-    public static void zonedDateTime() {
-        // Get the current date and time
-        ZonedDateTime date6 = ZonedDateTime.parse("2012-12-12T10:15:30+05:30[Asia/Tokyo]");
-        System.out.println("date6: " + date6);
-
-        ZoneId id = ZoneId.of("Europe/Paris");
-        System.out.println("ZoneId: " + id);
-
-        ZoneId currentZone = ZoneId.systemDefault();
-        System.out.println("CurrentZone: " + currentZone);
-    }
-
+    /**
+     * The LocalDate represents a date in ISO format (yyyy-MM-dd) without time.
+     */
     public static void localDate() {
         //LocalDate final类型 一旦赋值不可改变
         LocalDate localDate = LocalDate.now();
@@ -99,5 +114,158 @@ public class DateTime {
         //时间边界 获取某个日期的当月的起始天　如(2016-06-12的那个月第一天是2016-06-01)
         LocalDate firstDayOfMonth = LocalDate.parse("2016-06-12").with(TemporalAdjusters.firstDayOfMonth());
         System.out.println("firstDayOfMonth: " + firstDayOfMonth);
+    }
+
+
+    /**
+     * The LocalDateTime is used to represent a combination of date and time.
+     */
+    public static void localDateTime() {
+        // LocalDateTime can be obtained from the system clock similar to LocalDate and LocalTime
+        LocalDateTime localDateTime = LocalDateTime.now();
+        System.out.println("localDateTime: " + localDateTime);
+        //create an instance using the factory “of” and “parse” methods
+        LocalDateTime localDateTime1 = LocalDateTime.of(2015, Month.FEBRUARY, 20, 06, 30);
+        System.out.println("localDateTime1: " + localDateTime1);
+
+        LocalDateTime localDateTime2 = LocalDateTime.parse("2015-02-20T06:30:00");
+        System.out.println("localDateTime2: " + localDateTime2);
+        //the usage of “plus” and “minus” methods
+        LocalDateTime localDateTimeplusOneDay = localDateTime.plusDays(1);
+        System.out.println("localDateTimeplusOneDay: " + localDateTimeplusOneDay);
+        LocalDateTime localDateTimeMinusTwoHours = localDateTime.minusHours(2);
+        System.out.println("localDateTimeMinusTwoHours: " + localDateTimeMinusTwoHours);
+        //LocalDateTime reset
+        LocalDateTime localDateTimeReset = localDateTime.withDayOfMonth(10).withYear(2012);
+        System.out.println("localDateTimeReset: " + localDateTimeReset);
+        //LocalDateTime get month,day and seconds
+        Month month = localDateTime.getMonth();
+        int day = localDateTime.getDayOfMonth();
+        int seconds = localDateTime.getSecond();
+        System.out.println("Month: [" + month + "] day: [" + day + "] seconds: [" + seconds + "]");
+        //get LocalDate from LocalDateTime
+        LocalDate toLocalDate = localDateTime.toLocalDate();
+        System.out.println("toLocalDate: " + toLocalDate);
+        //get LocalTime from LocalDateTime
+        LocalTime toLocalTime = localDateTime.toLocalTime();
+        System.out.println("toLocalTime: " + toLocalTime);
+
+
+    }
+
+    /**
+     * Java 8 provides ZonedDateTime when we need to deal with time zone specific date and time.
+     * The ZoneId is an identifier used to represent different zones. There are about 40 different time zones.
+     */
+    public static void zonedDateTime() {
+        //Create a Zone for Tokyo
+        ZoneId tokyoZoneId = ZoneId.of("Asia/Tokyo");
+        System.out.println("tokyoZoneId: " + tokyoZoneId);
+        //A set of all zone ids can be obtained
+        Set<String> allZoneIds = ZoneId.getAvailableZoneIds();
+        System.out.println("allZoneIds: " + allZoneIds);
+        // Get the current date and time
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse("2012-12-12T10:15:30+05:30[Asia/Tokyo]");
+        System.out.println("zonedDateTime: " + zonedDateTime);
+
+        //The LocalDateTime can be converted to a specific zone
+        LocalDateTime localDateTime = LocalDateTime.now();
+        ZonedDateTime tokyoZonedDateTime = ZonedDateTime.of(localDateTime, tokyoZoneId);
+        System.out.println("tokyoZonedDateTime: " + tokyoZonedDateTime);
+
+        //Get currentZone
+        ZoneId currentZone = ZoneId.systemDefault();
+        System.out.println("currentZone: " + currentZone);
+
+        //The ZonedDateTime provides parse method to get time zone specific date time
+        ZonedDateTime parseZonedDateTime = ZonedDateTime.parse("2015-05-03T10:15:30+01:00[Asia/Tokyo]");
+        System.out.println("parseZonedDateTime: " + parseZonedDateTime);
+        //获取一个固定(2小时)偏移量(相对于格林尼治时间)的时间
+        ZoneOffset offset = ZoneOffset.of("+02:00");
+        OffsetDateTime offSetByTwo = OffsetDateTime.of(localDateTime, offset);
+        System.out.println("localDateTime: " + localDateTime + " and offSetByTwo: " + offSetByTwo);
+    }
+
+    /**
+     * The Period class is widely used to modify values of given a date
+     * or to obtain the difference between two dates.
+     */
+    public static void period() {
+
+        //Get a initialDate
+        LocalDate initialDate = LocalDate.parse("2018-05-10");
+        System.out.println("initialDate: " + initialDate);
+
+        //The Date can be manipulated using Period as shown in the following code snippet.
+        LocalDate finalDate = initialDate.plus(Period.ofDays(5));
+        System.out.println("finalDate: " + finalDate);
+
+        //The Period class has various getter methods such as getYears,
+        // getMonths and getDays to get values from a Period object
+        int betweenTwoDate = Period.between(finalDate, initialDate).getDays();
+        System.out.println("betweenTwoDate: " + betweenTwoDate);
+
+        //The Period between two dates can be obtained in a specific unit such as days or month or years,
+        // using ChronoUnit.between
+        Long intervalDays = ChronoUnit.DAYS.between(initialDate, finalDate);
+        Long intervalMonths = ChronoUnit.MONTHS.between(initialDate, finalDate);
+        System.out.println("intervalDays: " + intervalDays + ", intervalMonths: " + intervalMonths);
+    }
+
+    /**
+     * the Duration class is use to deal with Time.
+     */
+    public static void duration() {
+
+        //Get a initialTime
+        LocalTime initialTime = LocalTime.of(6, 30, 0);
+        System.out.println("initialTime: " + initialTime);
+
+        //Add a duration of 30 seconds to make a LocalTime of 06:30:30am
+        LocalTime finalTime = initialTime.plus(Duration.ofSeconds(30));
+        System.out.println("finalTime: " + finalTime);
+
+        //The Duration between two instants can be obtained either as a Duration or as a specific unit
+        Long intervalSeconds = Duration.between(finalTime, initialTime).getSeconds();
+        System.out.println("intervalSeconds: " + intervalSeconds);
+        //Use the between() method of the ChronoUnit class
+        Long intervalSeconds1 = ChronoUnit.SECONDS.between(finalTime, initialTime);
+        System.out.println("intervalSeconds1: " + intervalSeconds1);
+    }
+
+    /**
+     * the toInstant() method which helps to convert existing Date and Calendar instance to new Date Time API
+     */
+    public static void toInstant() {
+
+        //Date transform to LocalDateTime
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
+        System.out.println("localDateTime: " + localDateTime);
+        //Calendar transform to LocalDateTime
+        LocalDateTime localDateTime1 = LocalDateTime.ofInstant(Calendar.getInstance().toInstant(), ZoneId.systemDefault());
+        System.out.println("localDateTime1: " + localDateTime1);
+
+        //The LocalDateTime can be constructed from epoch seconds as below
+        //The result of the below code would be a LocalDateTime representing 2016-06-13T11:34:50
+        LocalDateTime localDateTime2 = LocalDateTime.ofEpochSecond(1465817690, 0, ZoneOffset.UTC);
+        System.out.println("localDateTime2: " + localDateTime2);
+    }
+
+    /**
+     * the easy formatting of Date and Time
+     */
+    public static void formatting() {
+        //Get the LocalDateTime
+        LocalDateTime localDateTime = LocalDateTime.of(2015, Month.JANUARY, 25, 6, 30);
+        //标准格式化
+        String localDateFormat = localDateTime.format(DateTimeFormatter.ISO_DATE);
+        System.out.println("localDateFormat: " + localDateFormat);
+        //格式化成yyyy/MM/dd
+        String localDateFormat1 = localDateTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        System.out.println("localDateFormat1: " + localDateFormat1);
+        //格式化成SIMPLIFIED_CHINESE
+        String localDateFormat2 = localDateTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(Locale.CHINA));
+        System.out.println("localDateFormat2: " + localDateFormat2);
+
     }
 }
