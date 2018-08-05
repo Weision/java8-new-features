@@ -5,52 +5,39 @@ package com.wxx.lambda;
  * lamadba expression
  */
 public class Lambda {
-
-
-    // #2 Method parameter is of type IsTypeOne
-    public static void first(IsTypeOne one) {
-        //#5 Method that is overridden by Lambda will be called.
-        one.hasOne();
-    }
-
-    //#6 Method parameter is of type IsTypeTwo
-    public static void second(IsTypeTwo two) {
-        //#9 Method that is overridden by Lambda will be called.
-        two.hasTwo();
-    }
-
-    public static void invoke() {
-        //#3 Here labmda type is "IsTypeOne", because first() has parameter of type "IsTypeOne"
-        //#4 Body {...} of lambda is body part of Overridden hasOne method.
-        first(() -> {
-            System.out.println("Invoking first.");
-        });
-
-        //#7 Here labmda type is "IsTypeTwo", because second() has parameter of type "IsTypeTwo"
-        //#8 Body {...} of lambda is body part of Overridden hasTwo method.
-        second(() -> {
-            System.out.println("Invoking second.");
-        });
-    }
-
-
     public static void main(String[] args) {
 
         // 1 With Anonymous class.
-        IsFunctional isFunc = new IsFunctional() {
+        FuncInterface func = new FuncInterface() {
             @Override
-            public void testMetod(String data) {
-                System.out.println("Printing " + data + " from Anonymous class.");
+            public int calculate(int x, int y) {
+                System.out.println("after calculate x and  y ,the value is: " + x + y);
+                return x + y;
             }
         };
 
-        // 2 With lambda expression.
-        IsFunctional func = (demoData) -> {
-            System.out.println("Printing " + demoData + " from Lambda expression.");
-        };
+        // 执行
+        func.calculate(8,2);
 
-        // 3 lambda expression as parameter
-        invoke();
+        // 2 使用lamdba表达式
+        // 调用下边定义的invoke方法，把lamdba表达式作为参数传递
+        int invokeResult1 = invoke(((x,y)->{return x+y;}),8,2);
+        int invokeResult2 = invoke(((x,y)->{return x*y;}),8,2);
+        int invokeResult3 = invoke(((x,y)->{return x%y;}),8,2);
+        System.out.println("invokeResult1: " + invokeResult1);
+        System.out.println("invokeResult2: " + invokeResult2);
+        System.out.println("invokeResult3: " + invokeResult3);
+    }
+
+    /**
+     * invoke方法
+     * @param func
+     * @param a
+     * @param b
+     * @return
+     */
+    public static int invoke(FuncInterface func, int a, int b) {
+        return func.calculate(a, b);
     }
 
 
