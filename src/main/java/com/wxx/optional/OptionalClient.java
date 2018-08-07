@@ -11,10 +11,10 @@ public class OptionalClient {
         Student weision = new Student("Weision", 10, 99);
         Student noName = null;
 
-        //orElse2 存在即返回, 无则提供默认值
+        //orElse1 存在即返回, 无则提供默认值
         Student student = getStudentOrElse(noName);
         System.out.println("getStudentOrElse-->她的名字是getStudent: " + student.getName());
-        //orElse1 存在即返回, 无则提供默认值
+        //orElse2 存在即返回, 无则提供默认值
         String name = getNameorElse(noName);
         System.out.println("getNameorElse-->她的名字是getName: " + name);
         //orElse3 存在即返回, 无则提供默认值
@@ -47,10 +47,10 @@ public class OptionalClient {
         String name5 = StudentflatMap(weision);
         System.out.println("StudentflatMap-->我的名字是: " + name5);
 
-        //filter 存在才对它进行过滤
+        //filter1 存在才对它进行过滤
         String name6 = StudentFilter(noName);
         System.out.println("StudentFilter-->大于9岁的人是: " + name6);
-        //filter 存在才对它进行过滤
+        //filter2 存在才对它进行过滤
         String name7 = StudentFilter(weision);
         System.out.println("StudentFilter-->大于9岁的人是: " + name7);
 
