@@ -186,7 +186,8 @@ public class StreamClient {
 
         //15 parallelStream() 为集合创建并行流
         System.out.println("-------------parallelStream()-------------");
-        long count2 = strings.parallelStream().filter(s -> s.isEmpty()).count();
+        Stream<String> parallelStream = Arrays.asList("555", "333", "444", "111", "222", "666").parallelStream();
+        long count2 = parallelStream.filter(s -> !s.isEmpty()).count();
         System.out.println("stream中有[" + count2 + "]非空数据!");
     }
 }
