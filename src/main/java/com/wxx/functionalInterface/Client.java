@@ -29,11 +29,13 @@ public class Client {
         //消费型：第二个参数为实现了Consumer<T>接口accept(T t)方法的lambda表达式
         buy(1000, money -> System.out.println("消费型-->我买面包花了:" + money + "元"));
         //供给型：参数为实现了Supplier<Integer>接口get()方法的lambda表达式
-        String phone = factory(() -> {return "Apple8";});
+        String phone = factory(() -> {
+            return "Apple8";
+        });
         System.out.println("供给型-->富士康生产的有名的手机是:" + phone);
         //函数型：参数为实现了Function<String, Integer>接口apply(T t)方法的lambda表达式
         Integer num = convert("666", x -> Integer.parseInt(x));
-        System.out.println("函数型-->字符型666被转换成了数字: "+ num);
+        System.out.println("函数型-->字符型666被转换成了数字: " + num);
         //断言型：参数为实现了Predicate<String>接口test(T t)方法的lambda表达式
         String na = "尼古拉斯赵四";
         String noble = isNoble(na, (name) -> !"".equals(name) && name.contains("尼古拉斯"));
@@ -43,6 +45,7 @@ public class Client {
 
     /**
      * buy方法有个Consumer<Integer>的入参
+     *
      * @param money
      * @param consumer
      */
@@ -52,6 +55,7 @@ public class Client {
 
     /**
      * factory方法有个Supplier<Integer>的入参
+     *
      * @param supplier
      * @return
      */
@@ -62,6 +66,7 @@ public class Client {
 
     /**
      * convert方法有个Function<String, Integer>的入参
+     *
      * @param str
      * @param function
      * @return
