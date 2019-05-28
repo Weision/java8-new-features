@@ -9,7 +9,10 @@ import lombok.*;
 public class Student implements Comparable<Student> {
     String name;
     Integer age;
+    String sex;
     Integer score;
+    Integer citationCount;
+
 
     public int compareTo(Student student) {
         if (this.age >= student.age)
