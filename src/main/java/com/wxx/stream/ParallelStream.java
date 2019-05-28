@@ -9,7 +9,7 @@ import java.util.concurrent.CountDownLatch;
 
 import static java.lang.System.out;
 
-public class ParallelStreamClient {
+public class ParallelStream {
     public static void main(String[] args) throws InterruptedException {
         principle();
 
