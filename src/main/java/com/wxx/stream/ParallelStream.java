@@ -1,23 +1,42 @@
 package com.wxx.stream;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 import static java.lang.System.out;
 
 public class ParallelStream {
     public static void main(String[] args) throws InterruptedException {
-        principle();
+        //order();
+        performance();
+        //principle();
 
     }
 
-    public static void base() {
+    public static void order() {
         List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 10000000; i++) {
+        for (int i = 0; i < 30; i++) {
+            list.add(i);
+        }
+        System.out.println("----------stream 结果和结果有序----------");
+        list.stream().forEach(out::println);
+        System.out.println("----------parallelStream 执行顺序----------");
+        //并行处理　执行是乱序的
+        list.parallelStream().forEach(out::println);
+        List<Integer> collect = list.parallelStream()
+                .collect(Collectors.toList());
+        System.out.println("----------parallelStream1 结果顺序----------");
+        //并行处理　结果是有序的
+        collect.forEach(out::println);
+    }
+
+    public static void performance() {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
             list.add(i);
         }
         System.out.println("-------------stream 10000000---------------");
@@ -98,4 +117,6 @@ public class ParallelStream {
         System.out.println("threadSet合并后：" + threadSetTwo);
         System.out.println("threadSetTwo合并后一共有" + threadSetTwo.size() + "个线程");
     }
+
+
 }
