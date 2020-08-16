@@ -1,7 +1,7 @@
 package com.weison.java8;
 
-import com.back.lambda.Calculator;
-import org.junit.Test;
+import com.weison.functionalInterface.Calculator;
+import org.junit.jupiter.api.Test;
 
 public class LambdaTest {
 

@@ -1,7 +1,7 @@
 package com.weison.java8;
 
-import com.back.domain.Student;
-import org.junit.Test;
+import com.weison.domain.Student;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
@@ -30,7 +30,7 @@ public class OptionalTest {
         Object o = Optional.ofNullable(null).get();
 
         //构造两个Student实例　一个为null 一个非null
-        Student weision = new Student("Ailice", 10, "女", 118);
+        Student weision = new Student("Ailice", 10, "女", 118, 2, 1);
 
         Student noName = null;
 
@@ -84,7 +84,7 @@ public class OptionalTest {
     //存在即返回, 无则提供默认值
     public static Student getStudentOrElse(Student student) {
         return Optional.ofNullable(student)
-                .orElse(new Student("无名氏", 10, "女", 119));
+                .orElse(new Student("无名氏", 10, "女", 119,1,1));
     }
 
     //存在即返回, 无则提供默认值
@@ -97,7 +97,7 @@ public class OptionalTest {
     //存在即返回, 无则提供默认值
     public static Student getStudentOrElseGet(Student student) {
         return Optional.ofNullable(student).orElseGet(() ->
-                new Student("无名氏", 10, "女", 120)
+                new Student("无名氏", 10, "女", 120,1,1)
         );
     }
 

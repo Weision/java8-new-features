@@ -1,8 +1,8 @@
 package com.weison.java8;
 
 import com.weison.domain.Student;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.function.Function;
@@ -15,7 +15,7 @@ public class StreamTest {
     private static List<Student> studentList2 = new ArrayList<>();
     private static List<List<Student>> students = new ArrayList<>();
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         Student student1 = new Student();
         Student student2 = new Student();
@@ -127,15 +127,15 @@ public class StreamTest {
         List<Student> classThreeStudents = new ArrayList<>();
         List<List<Student>> students = new ArrayList<>();
 
-        classOneStudents.add(new Student("Weison", 12, "男", 111));
-        classOneStudents.add(new Student("Evan", 13, "女", 110));
-        classOneStudents.add(new Student("Obam", 14, "男", 109));
+        classOneStudents.add(new Student("Weison", 12, "男", 111, 1, 1));
+        classOneStudents.add(new Student("Evan", 13, "女", 110, 1, 1));
+        classOneStudents.add(new Student("Obam", 14, "男", 109, 1, 1));
 
-        classTwoStudents.add(new Student("Bush", 15, "男", 108));
-        classTwoStudents.add(new Student("Jackson", 16, "男", 107));
+        classTwoStudents.add(new Student("Bush", 15, "男", 108, 1, 1));
+        classTwoStudents.add(new Student("Jackson", 16, "男", 107, 1, 1));
 
-        classThreeStudents.add(new Student("Linn", 17, "女", 106));
-        classThreeStudents.add(new Student("Ellen", 18, "女", 105));
+        classThreeStudents.add(new Student("Linn", 17, "女", 106, 1, 1));
+        classThreeStudents.add(new Student("Ellen", 18, "女", 105, 1, 1));
 
         students.add(classOneStudents);
         students.add(classTwoStudents);

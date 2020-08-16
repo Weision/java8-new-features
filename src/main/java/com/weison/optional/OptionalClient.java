@@ -8,7 +8,7 @@ public class OptionalClient {
     public static void main(String[] args) {
 
         //构造两个Student实例　一个为null 一个非null
-        Student weision = new Student("Ailice", 10, "女", 86, 2);
+        Student weision = new Student("Ailice", 10, "女", 86, 2,2);
 
         Student noName = null;
 
@@ -61,7 +61,7 @@ public class OptionalClient {
 
     //存在即返回, 无则提供默认值
     public static Student getStudentOrElse(Student student) {
-        return Optional.ofNullable(student).orElse(new Student("无名氏", 10, "女", 86, 2));
+        return Optional.ofNullable(student).orElse(new Student("无名氏", 10, "女", 86, 2,4));
     }
 
     //存在即返回, 无则提供默认值
@@ -72,7 +72,7 @@ public class OptionalClient {
     //存在即返回, 无则提供默认值
     public static Student getStudentOrElseGet(Student student) {
         return Optional.ofNullable(student).orElseGet(() ->
-                new Student("无名氏", 10, "女", 86, 2)
+                new Student("无名氏", 10, "女", 86, 2,5)
         );
     }
 

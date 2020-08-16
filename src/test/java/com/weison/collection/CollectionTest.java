@@ -1,8 +1,8 @@
 package com.weison.collection;
 
 import com.weison.domain.Student;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
@@ -10,7 +10,7 @@ public class CollectionTest {
     private static List<Student> studentList = new ArrayList<Student>();
     private static Set<Student> studentSet = new HashSet<>();
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         Student student1 = new Student();
         Student student2 = new Student();

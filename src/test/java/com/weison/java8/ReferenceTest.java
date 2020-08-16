@@ -1,9 +1,9 @@
 package com.weison.java8;
 
 
-import com.back.reference.IsReferable;
-import com.back.reference.Reference;
-import org.junit.Test;
+import com.weison.methodReference.IsReferable;
+import com.weison.methodReference.Reference;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
