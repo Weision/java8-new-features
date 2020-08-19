@@ -16,3 +16,5 @@ Java8 新增了非常多的特性,本项目主需要学习了常用的6项；
     Optional 类 − Optional 类已经成为 Java 8 类库的一部分，用来解决空指针异常。
 
     Nashorn, JavaScript 引擎 − Java 8提供了一个新的Nashorn javascript引擎，它允许我们在JVM上运行特定的javascript应用。
+    
+    CompletableFuture 并发异步编程。

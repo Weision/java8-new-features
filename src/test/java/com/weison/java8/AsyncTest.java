@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * https://juejin.im/post/6854573213108666381#heading-11
+ * 串行 并行 聚合(and&or)
  */
 @Slf4j
 public class AsyncTest {
@@ -31,7 +32,7 @@ public class AsyncTest {
      * 它的作用和那几个函数式接口的作用是一样一样滴
      */
     @Test
-    public void then() {
+    public void thenSync() {
         CompletableFuture<String> userFuture = CompletableFuture.supplyAsync(this::requestUser)
                 .thenApply(body -> doSomeThing(body))
                 .thenApply(this::log);
@@ -45,8 +46,7 @@ public class AsyncTest {
                 .thenApply(this::log);
 
         //聚合两个独立Future
-        CompletableFuture<String> userOrder = userFuture.thenCombine(orderFuture,
-                (user, order) -> user + order)
+        CompletableFuture<String> userOrder = userFuture.thenCombine(orderFuture, (user, order) -> user + order)
                 .thenApply(this::log);
 
         //展开&平铺 同flatMap
@@ -61,6 +61,40 @@ public class AsyncTest {
 
         CompletableFuture.allOf(userFuture, orderFuture, openIdFuture, userOrder, weChatInfoFuture)
                 .thenAccept(object -> log.info("over", object));
+        log.info("then end");
+        sleep(5L);
+    }
+
+    @Test
+    public void thenAsync() {
+        CompletableFuture<String> userFuture = CompletableFuture.supplyAsync(this::requestUser)
+                .thenApplyAsync(body -> doSomeThing(body))
+                .thenApplyAsync(this::log);
+
+        CompletableFuture<String> orderFuture = CompletableFuture.supplyAsync(this::requestOrder)
+                .thenApplyAsync(body -> doSomeThing(body))
+                .thenApplyAsync(this::log);
+
+        CompletableFuture<String> openIdFuture = CompletableFuture.supplyAsync(this::requestWeChat)
+                .thenApplyAsync(body -> doSomeThing(body))
+                .thenApplyAsync(this::log);
+
+        //聚合两个独立Future
+        CompletableFuture<String> userOrder = userFuture.thenCombineAsync(orderFuture, (user, order) -> user + order)
+                .thenApplyAsync(this::log);
+
+        //展开&平铺 同flatMap
+        CompletableFuture<String> weChatInfoFuture = userFuture.thenComposeAsync(userOpenId -> requestWeChat(userOpenId))
+                .thenApplyAsync(this::log);
+
+        CompletableFuture<CompletableFuture<String>> weChatInfoFutureFuture =
+                userFuture.thenApplyAsync(userOpenId -> requestWeChat(userOpenId));
+
+        CompletableFuture.anyOf(userFuture, orderFuture, openIdFuture, userOrder, weChatInfoFuture)
+                .thenAcceptAsync(object -> log.info("over", object));
+
+        CompletableFuture.allOf(userFuture, orderFuture, openIdFuture, userOrder, weChatInfoFuture)
+                .thenAcceptAsync(object -> log.info("over", object));
         log.info("then end");
         sleep(5L);
     }
@@ -119,7 +153,7 @@ public class AsyncTest {
     }
 
     private String log(String str) {
-        log.info(str.substring(2,10));
+        log.info(str.substring(2, 10));
         return str;
     }
 }
