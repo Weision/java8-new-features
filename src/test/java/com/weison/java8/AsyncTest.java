@@ -33,30 +33,34 @@ public class AsyncTest {
     @Test
     public void then() {
         CompletableFuture<String> userFuture = CompletableFuture.supplyAsync(this::requestUser)
-                .thenApply(body -> doSomeThing(body));
+                .thenApply(body -> doSomeThing(body))
+                .thenApply(this::log);
 
         CompletableFuture<String> orderFuture = CompletableFuture.supplyAsync(this::requestOrder)
-                .thenApply(body -> doSomeThing(body));
+                .thenApply(body -> doSomeThing(body))
+                .thenApply(this::log);
 
         CompletableFuture<String> openIdFuture = CompletableFuture.supplyAsync(this::requestWeChat)
-                .thenApply(body -> doSomeThing(body));
-
+                .thenApply(body -> doSomeThing(body))
+                .thenApply(this::log);
 
         //聚合两个独立Future
         CompletableFuture<String> userOrder = userFuture.thenCombine(orderFuture,
-                (user, order) -> user + order);
+                (user, order) -> user + order)
+                .thenApply(this::log);
 
         //展开&平铺 同flatMap
-        CompletableFuture<String> weChatInfoFuture = userFuture.thenCompose(userOpenId -> requestWeChat(userOpenId));
+        CompletableFuture<String> weChatInfoFuture = userFuture.thenCompose(userOpenId -> requestWeChat(userOpenId))
+                .thenApply(this::log);
 
         CompletableFuture<CompletableFuture<String>> weChatInfoFutureFuture =
                 userFuture.thenApply(userOpenId -> requestWeChat(userOpenId));
 
-        CompletableFuture.anyOf(userFuture,orderFuture,openIdFuture,userOrder,weChatInfoFuture)
-                .thenAccept(object->log.info("over",object));
+        CompletableFuture.anyOf(userFuture, orderFuture, openIdFuture, userOrder, weChatInfoFuture)
+                .thenAccept(object -> log.info("over", object));
 
-        CompletableFuture.allOf(userFuture,orderFuture,openIdFuture,userOrder,weChatInfoFuture)
-                .thenAccept(object->log.info("over",object));
+        CompletableFuture.allOf(userFuture, orderFuture, openIdFuture, userOrder, weChatInfoFuture)
+                .thenAccept(object -> log.info("over", object));
         log.info("then end");
         sleep(5L);
     }
@@ -112,5 +116,10 @@ public class AsyncTest {
 
     private String doSomeThing(String body) {
         return body;
+    }
+
+    private String log(String str) {
+        log.info(str.substring(2,10));
+        return str;
     }
 }
