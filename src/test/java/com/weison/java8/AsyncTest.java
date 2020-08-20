@@ -11,6 +11,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * https://juejin.im/post/6854573213108666381#heading-11
  * 串行 并行 聚合(and&or)
+ * {@link #instance instance}
+ * {@link #thenSync thenSync}
+ * {@link #thenAsync thenAsync}
  */
 @Slf4j
 public class AsyncTest {
