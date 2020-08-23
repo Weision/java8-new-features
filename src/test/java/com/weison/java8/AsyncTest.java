@@ -74,7 +74,7 @@ public class AsyncTest {
                 .thenApply(str -> print("场景10:丈夫菊花一紧,立马往医院赶"));
 
         Object join = CompletableFuture.anyOf(future1, future2).join();
-        print(join.toString());
+        print("==" + join.toString() + "==");
 
         //抢救开始
         CompletableFuture<String> future3 = CompletableFuture.supplyAsync(this::rescue)
